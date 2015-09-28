@@ -79,7 +79,12 @@ And you can open your browser to that and hopefully see your seekbar!
 Tests
 -----
 
-Run tests with `make test`.
+Install:
+
+    (sudo) npm install -g browserify
+    (sudo) npm install -g smokestack
+
+Then, run tests with `make test`.
 
 License
 -------

@@ -1,8 +1,9 @@
 var test = require('tape');
-var yetAnotherApp = require('../index');
+var Seekbar = require('../index');
+// var jsdom = require('jsdom');
 
 test('Basic test', function basicTest(t) {
-  t.plan(1);
-
-  t.ok(true, 'Test description.');
+  var seekbar = Seekbar();  
+  t.ok(seekbar, 'Test description.');
+  t.end();
 });
