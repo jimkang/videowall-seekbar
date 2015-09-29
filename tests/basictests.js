@@ -30,25 +30,29 @@ test('Construction', function ctorTest(t) {
   t.ok(
     el.classList.contains('videowall-seekbar'), 'Seekbar element class is set.'
   );
+  t.equal(el.style.position, 'relative', 'Seekbar position style is set.');
+  t.equal(el.style.display, 'inline-block', 'Seekbar display style is set.');
 
-  t.ok(
-    el.querySelector('.videowall-seekbar-runner'),
-    'Seekbar element has a runner child.'
-  );
-  t.ok(
-    el.querySelector('.videowall-seekbar-turtle'),
-    'Seekbar element has a turtle child.'
-  );
+  // document.body.appendChild(el);
+
+  var runnerEl = el.querySelector('.videowall-seekbar-runner');
+  t.ok(runnerEl, 'Seekbar element has a runner child.');
+  t.equal(runnerEl.style.position, 'absolute', 'Runner position style is set.');
+
+  var turtleEl = el.querySelector('.videowall-seekbar-turtle');
+  t.ok(turtleEl, 'Seekbar element has a turtle child.');
+  t.equal(turtleEl.style.position, 'absolute', 'Turtle position style is set.');
 
   t.end();
 });
 
 // test('Seeking', function seekingTest(t) {
-//   t.plan(1);
+//   var seekbar = Seekbar({
+//     doc: window.document,
+//     mediaElements: [MockMediaElement(), MockMediaElement()]    
+//   });
 
-//   function somethign() {
-//     t.ok();
-//   }
+//   var el = seekbar.el();
 
-//   setTimeout(something, 0);
-// }
+//   t.end();
+// });

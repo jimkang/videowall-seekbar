@@ -52,10 +52,15 @@ function Seekbar(createOpts) {
 function createDOMElements(doc) {
   var seekbarEl = doc.createElement('div');
   seekbarEl.classList.add('videowall-seekbar');
+  setSeekbarStyles(seekbarEl);
+
   var runnerEl = doc.createElement('div');
   runnerEl.classList.add('videowall-seekbar-runner');
+  setRunnerStyles(runnerEl);
+
   var turtleEl = doc.createElement('div');
   turtleEl.classList.add('videowall-seekbar-turtle');
+  setTurtleStyles(turtleEl);
 
   seekbarEl.appendChild(runnerEl);
   seekbarEl.appendChild(turtleEl);
@@ -65,6 +70,25 @@ function createDOMElements(doc) {
     runnerEl,
     turtleEl
   };
+}
+
+function setSeekbarStyles(el) {
+  el.style.position = 'relative';
+  el.style.left = '0px';
+  el.style.top = '0px';
+  el.style.display = 'inline-block';
+
+  // TODO: These should be configurable.
+  el.style.height = '24px';
+  el.style.width = '150px';
+}
+
+function setRunnerStyles(el) {
+  el.style.position = 'absolute';
+}
+
+function setTurtleStyles(el) {
+  el.style.position = 'absolute';
 }
 
 module.exports = Seekbar;
