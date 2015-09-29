@@ -1,7 +1,7 @@
 videowall-seekbar
 ==================
 
-A very simple browser UI control for use with [Babelify]() that coordinates seeking in multiple videos.
+A very simple browser UI control for use with [Babelify](https://github.com/babel/babelify) that coordinates seeking in multiple videos. It is inspired by [slideways](https://github.com/substack/slideways/) but does not automatically insert a DOM element for you.
 
 It handles:
 
@@ -30,7 +30,7 @@ Instantiation
       mediaElements: arrayOMediaDOMElements,
       min: 0,
       max: 100,
-      init: 0
+      initValue: 0
     });
 
 The Seekbar factory opts are:
@@ -38,7 +38,8 @@ The Seekbar factory opts are:
   – `mediaElements`: An array of HTMLMediaElements. This could be video or audio. In fact, they don't strictly have to be HTMLMediaElements. They just have to be objects that implement [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/currentTime), addEventListener, and emit `timeupdate` events. See tests for details.
   - `min`: This is the minimum possible value for the seekbar and videos.
   - `max`: This is the maximum possible value for the seekbar and videos.
-  - `init`: This is the initial value for the seekbar.
+  - `initValue`: This is the initial value for the seekbar.
+  - `doc`: You can provide this if you want it to use something other than `window.document` to create DOM elements.
 
 Usage
 -----
