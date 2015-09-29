@@ -19,7 +19,11 @@ function Seekbar(createOpts) {
     doc = window.document;
   }
 
-  var seekbarEl = doc.createElement('div');
+  var {
+    seekbarEl,
+    runnerEl,
+    turtleEl
+  } = createDOMElements(doc);
 
   var value = initValue;
 
@@ -35,7 +39,6 @@ function Seekbar(createOpts) {
     return seekbarEl;
   }
 
-  console.log('Hi, Firefox!');
   var div = doc.createElement('div');
   div.textContent = 'Hello';
   doc.body.appendChild(div);
@@ -43,6 +46,24 @@ function Seekbar(createOpts) {
   return {
     getValue: getValue,
     el: el
+  };
+}
+
+function createDOMElements(doc) {
+  var seekbarEl = doc.createElement('div');
+  seekbarEl.classList.add('videowall-seekbar');
+  var runnerEl = doc.createElement('div');
+  runnerEl.classList.add('videowall-seekbar-runner');
+  var turtleEl = doc.createElement('div');
+  turtleEl.classList.add('videowall-seekbar-turtle');
+
+  seekbarEl.appendChild(runnerEl);
+  seekbarEl.appendChild(turtleEl);
+
+  return {
+    seekbarEl,
+    runnerEl,
+    turtleEl
   };
 }
 

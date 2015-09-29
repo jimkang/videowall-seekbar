@@ -1,4 +1,6 @@
-test:
+test: test-chrome test-firefox
+
+test-chrome:
 	browserify -t babelify tests/basictests.js | \
 		node_modules/.bin/tap-closer | \
 		node_modules/.bin/smokestack -b chrome

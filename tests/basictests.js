@@ -27,6 +27,18 @@ test('Construction', function ctorTest(t) {
 
   var el = seekbar.el();
   t.equal(typeof el, 'object', 'Seekbar has a DOM element.');
+  t.ok(
+    el.classList.contains('videowall-seekbar'), 'Seekbar element class is set.'
+  );
+
+  t.ok(
+    el.querySelector('.videowall-seekbar-runner'),
+    'Seekbar element has a runner child.'
+  );
+  t.ok(
+    el.querySelector('.videowall-seekbar-turtle'),
+    'Seekbar element has a turtle child.'
+  );
 
   t.end();
 });
