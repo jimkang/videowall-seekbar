@@ -37,7 +37,7 @@ function Seekbar(createOpts) {
 
   console.log('Hi, Firefox!');
   var div = doc.createElement('div');
-  div.innerText = 'Hello';
+  div.textContent = 'Hello';
   doc.body.appendChild(div);
 
   return {
