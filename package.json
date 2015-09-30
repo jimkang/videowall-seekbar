@@ -20,6 +20,7 @@
   "devDependencies": {
     "babelify": "^6.3.0",
     "jsdom": "^6.5.1",
+    "simulant": "^0.1.5",
     "smokestack": "^3.4.1",
     "tap-closer": "^1.0.0",
     "tape": "^3.0.3"

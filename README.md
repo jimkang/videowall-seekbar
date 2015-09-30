@@ -1,7 +1,7 @@
 videowall-seekbar
 ==================
 
-A very simple browser UI control for use with [Babelify](https://github.com/babel/babelify) that coordinates seeking in multiple videos. It is inspired by [slideways](https://github.com/substack/slideways/) but does not automatically insert a DOM element for you.
+A very simple browser UI control for use with [Babelify](https://github.com/babel/babelify) that coordinates seeking in multiple videos. It is inspired by [slideways](https://github.com/substack/slideways/) and [range-slider](https://github.com/hughsk/range-slider/blob/master/index.js).
 
 It handles:
 

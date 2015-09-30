@@ -35,8 +35,16 @@ function Seekbar(createOpts) {
     return value;
   }
 
-  function el() {
+  function getEl() {
     return seekbarEl;
+  }
+
+  function getTurtleEl() {
+    return turtleEl;
+  }
+
+  function getRunnerEl() {
+    return runnerEl;
   }
 
   var div = doc.createElement('div');
@@ -45,7 +53,9 @@ function Seekbar(createOpts) {
 
   return {
     getValue: getValue,
-    el: el
+    el: getEl,
+    getTurtleEl: getTurtleEl,
+    getRunnerEl: getRunnerEl
   };
 }
 
@@ -61,6 +71,12 @@ function createDOMElements(doc) {
   var turtleEl = doc.createElement('div');
   turtleEl.classList.add('videowall-seekbar-turtle');
   setTurtleStyles(turtleEl);
+
+  turtleEl.addEventListener('mousedown', logIt);
+
+  function logIt() {
+    console.log('Turtle mousedown\'d!');
+  }
 
   seekbarEl.appendChild(runnerEl);
   seekbarEl.appendChild(turtleEl);

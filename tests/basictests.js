@@ -1,6 +1,7 @@
 var test = require('tape');
 var Seekbar = require('../index');
 var MockMediaElement = require('./fixtures/mock-media-element');
+var simulant = require('simulant');
 
 test('Construction', function ctorTest(t) {
   function constructWithoutMediaElements() {
@@ -46,13 +47,20 @@ test('Construction', function ctorTest(t) {
   t.end();
 });
 
-// test('Seeking', function seekingTest(t) {
-//   var seekbar = Seekbar({
-//     doc: window.document,
-//     mediaElements: [MockMediaElement(), MockMediaElement()]    
-//   });
+test('Seeking', function seekingTest(t) {
+  var seekbar = Seekbar({
+    doc: window.document,
+    mediaElements: [MockMediaElement(), MockMediaElement()]    
+  });
 
-//   var el = seekbar.el();
+  var el = seekbar.el();
+  var turtleEl = seekbar.getTurtleEl();
+  var runnerEl = seekbar.getRunnerEl();
 
-//   t.end();
-// });
+  document.body.appendChild(el);
+
+  var mousedown = simulant('mousedown');
+  simulant.fire(turtleEl, 'mousedown');
+
+  t.end();
+});
