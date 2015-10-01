@@ -8,7 +8,8 @@ function Seekbar(createOpts) {
     mediaElements,
     min,
     max,
-    initValue
+    initValue,
+    width
   } = createOpts;
 
   if (!mediaElements || !Array.isArray(mediaElements)) {
@@ -17,6 +18,9 @@ function Seekbar(createOpts) {
 
   if (!doc) {
     doc = window.document;
+  }
+  if (!width) {
+    width = '100%';
   }
 
   var {
@@ -47,6 +51,35 @@ function Seekbar(createOpts) {
     return runnerEl;
   }
 
+  function createDOMElements(doc) {
+    var seekbarEl = doc.createElement('div');
+    seekbarEl.classList.add('videowall-seekbar');
+    setSeekbarStyles(seekbarEl, width);
+
+    var runnerEl = doc.createElement('div');
+    runnerEl.classList.add('videowall-seekbar-runner');
+    setRunnerStyles(runnerEl);
+
+    var turtleEl = doc.createElement('div');
+    turtleEl.classList.add('videowall-seekbar-turtle');
+    setTurtleStyles(turtleEl);
+
+    turtleEl.addEventListener('mousedown', logIt);
+
+    function logIt() {
+      console.log('Turtle mousedown\'d!');
+    }
+
+    seekbarEl.appendChild(runnerEl);
+    seekbarEl.appendChild(turtleEl);
+
+    return {
+      seekbarEl,
+      runnerEl,
+      turtleEl
+    };
+  }  
+
   var div = doc.createElement('div');
   div.textContent = 'Hello';
   doc.body.appendChild(div);
@@ -59,52 +92,22 @@ function Seekbar(createOpts) {
   };
 }
 
-function createDOMElements(doc) {
-  var seekbarEl = doc.createElement('div');
-  seekbarEl.classList.add('videowall-seekbar');
-  setSeekbarStyles(seekbarEl);
-
-  var runnerEl = doc.createElement('div');
-  runnerEl.classList.add('videowall-seekbar-runner');
-  setRunnerStyles(runnerEl);
-
-  var turtleEl = doc.createElement('div');
-  turtleEl.classList.add('videowall-seekbar-turtle');
-  setTurtleStyles(turtleEl);
-
-  turtleEl.addEventListener('mousedown', logIt);
-
-  function logIt() {
-    console.log('Turtle mousedown\'d!');
-  }
-
-  seekbarEl.appendChild(runnerEl);
-  seekbarEl.appendChild(turtleEl);
-
-  return {
-    seekbarEl,
-    runnerEl,
-    turtleEl
-  };
-}
-
-function setSeekbarStyles(el) {
+function setSeekbarStyles(el, width) {
   el.style.position = 'relative';
   el.style.left = '0px';
   el.style.top = '0px';
   el.style.display = 'inline-block';
-
-  // TODO: These should be configurable.
-  el.style.height = '24px';
-  el.style.width = '150px';
+  el.style.width = width;
 }
 
 function setRunnerStyles(el) {
   el.style.position = 'absolute';
+  el.style.width = '100%';
 }
 
 function setTurtleStyles(el) {
   el.style.position = 'absolute';
+  el.style.width = '44px';
 }
 
 module.exports = Seekbar;

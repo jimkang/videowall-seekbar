@@ -4,11 +4,14 @@ var MockMediaElement = require('./fixtures/mock-media-element');
 var simulant = require('simulant');
 
 test('Construction', function ctorTest(t) {
+  insertTestStyles(window.document);
+
   function constructWithoutMediaElements() {
     var seekbar = Seekbar({
       min: 0,
       max: 100,
-      initValue: 0
+      initValue: 0,
+      width: 150
     });
   }
 
@@ -20,7 +23,8 @@ test('Construction', function ctorTest(t) {
 
   var seekbar = Seekbar({
     doc: window.document,
-    mediaElements: [MockMediaElement(), MockMediaElement()]    
+    mediaElements: [MockMediaElement(), MockMediaElement()],
+    width: '150px'
   });
 
   t.equal(typeof seekbar, 'object', 'Creates a seekbar instance.');
@@ -33,12 +37,12 @@ test('Construction', function ctorTest(t) {
   );
   t.equal(el.style.position, 'relative', 'Seekbar position style is set.');
   t.equal(el.style.display, 'inline-block', 'Seekbar display style is set.');
-
-  // document.body.appendChild(el);
+  t.equal(el.style.width, '150px', 'Seekbar width is correct.');
 
   var runnerEl = el.querySelector('.videowall-seekbar-runner');
   t.ok(runnerEl, 'Seekbar element has a runner child.');
   t.equal(runnerEl.style.position, 'absolute', 'Runner position style is set.');
+  t.equal(runnerEl.style.width, '100%', 'Runner width is correct.');
 
   var turtleEl = el.querySelector('.videowall-seekbar-turtle');
   t.ok(turtleEl, 'Seekbar element has a turtle child.');
@@ -64,3 +68,24 @@ test('Seeking', function seekingTest(t) {
 
   t.end();
 });
+
+function insertTestStyles(doc) {
+  var style = doc.createElement('style');
+
+  style.textContent = `.videowall-seekbar {
+    height: 60px;
+  }
+
+  .videowall-seekbar-runner {
+    background-color: gray;
+    height: 100%;
+  }
+
+  .videowall-seekbar-turtle {
+    background-color: green;
+    width: 44px;
+    height: 100%;
+  }
+  `;
+  doc.body.appendChild(style);
+}

@@ -15,7 +15,6 @@ It leaves to you:
 - Adding the seekbar DOM element however and whenever you see fit.
 - Styling the seekbar via CSS.
 
-
 Installation
 ------------
 
@@ -40,6 +39,51 @@ The Seekbar factory opts are:
   - `max`: This is the maximum possible value for the seekbar and videos.
   - `initValue`: This is the initial value for the seekbar.
   - `doc`: You can provide this if you want it to use something other than `window.document` to create DOM elements.
+  - `width`: This can be any valid string value for the CSS width attribute, e.g.'400px', '80%'. Defaults to '100%'.
+
+CSS
+---
+
+There are three DOM elements created and managed by the Seekbar object. They have the following CSS classes:
+
+  - videowall-seekbar: The container element for the seekbar.
+  - videowall-seekbar-turtle: A child element that the user can drag to control the media's playback position.
+  - videowall-seekbar-runner: A child element that represents the track on which the turtle runs.
+
+These are the only style properties that Seekbar will change:
+
+  - position
+  - left
+  - top
+  - display
+  - width
+
+It changes them via the `style` property on the DOM element, so they take precedence over any properties assigned to them via CSS. However, everything else about them is controllable via CSS.
+
+Some essential things you *need* to set up via CSS are:
+
+  - height on all three elements (Without that, they'll be 0 height.)
+  - .videowall-seekbar-runner and .videowall-seekbar-turtle background-colors
+  - .videowall-seekbar-turtle width
+
+For example:
+
+    .videowall-seekbar {
+      height: 60px;
+    }
+
+    .videowall-seekbar-runner {
+      background-color: gray;
+      height: 100%;
+    }
+
+    .videowall-seekbar-turtle {
+      background-color: green;
+      width: 44px;
+      height: 100%;
+    }
+
+Then, you can go nuts with `border-radius` and transitions and what have you if that is how you roll.
 
 Usage
 -----
