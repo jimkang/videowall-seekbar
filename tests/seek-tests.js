@@ -88,3 +88,42 @@ test('Seeking', function seekingTest(t) {
     t.equal(seekbar.getValue(), 4, 'Value is correct.');
   }  
 });
+
+test('Setting', function settingTest(t) {
+  var seekbar = Seekbar({
+    theWindow: window,
+    mediaElements: [MockMediaElement(), MockMediaElement()],
+    min: 0,
+    max: 100,
+    initValue: 0,
+    width: '1000',
+    unit: 'px'
+  });
+
+  var el = seekbar.el();
+  var turtleEl = seekbar.getTurtleEl();
+
+  document.body.appendChild(el);
+
+  seekbar.setValue(99.1);
+  t.equal(turtleEl.style.left, '991px', 'Turtle position is correct.');
+  t.equal(seekbar.getValue(), 99.1, 'Value is correct.');
+
+  seekbar.setValue(125);
+  t.equal(turtleEl.style.left, '1000px', 'Turtle position is correct.');
+  t.equal(seekbar.getValue(), 100, 'Value is correct.');
+
+  seekbar.setValue(0);
+  t.equal(turtleEl.style.left, '0px', 'Turtle position is correct.');
+  t.equal(seekbar.getValue(), 0, 'Value is correct.');
+
+  seekbar.setValue(-12);
+  t.equal(turtleEl.style.left, '0px', 'Turtle position is correct.');
+  t.equal(seekbar.getValue(), 0, 'Value is correct.');
+
+  seekbar.setValue(55.8);
+  t.equal(turtleEl.style.left, '558px', 'Turtle position is correct.');
+  t.equal(seekbar.getValue(), 55.8, 'Value is correct.');
+
+  t.end();
+});

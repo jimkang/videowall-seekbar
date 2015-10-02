@@ -94,7 +94,7 @@ function Seekbar(createOpts) {
   }
 
   function setValue(newValue) {
-    var roundedValue = Math.round(clamp(newValue, min, max));
+    var roundedValue = clamp(newValue, min, max);
     if (roundedValue !== value) {
       value = roundedValue;
       renderValue();
