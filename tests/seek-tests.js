@@ -4,8 +4,16 @@ var insertTestStyles = require('./fixtures/insert-test-styles');
 var moveMouseOnEl = require('./fixtures/move-mouse-on-el');
 var simulant = require('simulant');
 var MockMediaElement = require('./fixtures/mock-media-element');
+var queue = require('queue-async');
+
+// test('Pause', function pauseHack(t) {
+//   window.cont = t.end;
+//   // Call `cont()` in the browser console when you're ready to continue.
+// });
 
 test('Seeking', function seekingTest(t) {
+  insertTestStyles(window.document);
+
   t.plan(3);
 
   var seekbar = Seekbar({
@@ -14,7 +22,8 @@ test('Seeking', function seekingTest(t) {
     min: 0,
     max: 100,
     initValue: 0,
-    width: '1000px'
+    width: '1000',
+    unit: 'px'
   });
 
   var el = seekbar.el();
@@ -26,10 +35,13 @@ test('Seeking', function seekingTest(t) {
   function* moveSequence(x, y, checkFn) {
     simulant.fire(turtleEl, 'mousedown');
     yield;
-    moveMouseOnEl(turtleEl, x, y);
+
+    moveMouseOnEl(el, x, y);
     yield;
+
     simulant.fire(turtleEl, 'mouseup');
     yield;
+    
     checkFn();
   }
 
@@ -37,29 +49,39 @@ test('Seeking', function seekingTest(t) {
   var iterB = moveSequence(200, 0, checkMoveB);
   var iterC = moveSequence(40, 0, checkMoveC);
 
-  // TODO: Make into loop.
-  setTimeout(iterA.next.bind(iterA), 0);
-  setTimeout(iterA.next.bind(iterA), 100);
-  setTimeout(iterA.next.bind(iterA), 300);
-  setTimeout(iterA.next.bind(iterA), 301);
-  setTimeout(iterB.next.bind(iterB), 400);
-  setTimeout(iterB.next.bind(iterB), 500);
-  setTimeout(iterB.next.bind(iterB), 700);
-  setTimeout(iterB.next.bind(iterB), 701);
-  setTimeout(iterC.next.bind(iterC), 800);
-  setTimeout(iterC.next.bind(iterC), 900);
-  setTimeout(iterC.next.bind(iterC), 1100);
-  setTimeout(iterC.next.bind(iterC), 1101);
+  var q = queue(1);
+  q.defer(runUntilDone, iterA.next.bind(iterA));
+  q.defer(runUntilDone, iterB.next.bind(iterB));
+  q.defer(runUntilDone, iterC.next.bind(iterC));
+  q.awaitAll(iteratorsDone);
+
+  function iteratorsDone(error) {
+    if (error) {
+      console.log(error);
+    }
+  }
+
+  function runUntilDone(iteratorNext, runDone) {
+    function runNext() {
+      if (iteratorNext().done) {
+        setTimeout(runDone, 50);
+      }
+      else {
+        setTimeout(runNext, 50);
+      }
+    }
+    runNext();
+  }
 
   function checkMoveA() {
     t.equal(turtleEl.style.left, '100px', 'Turtle position is correct.');
   }
 
   function checkMoveB() {
-    t.ok('B');
+    t.equal(turtleEl.style.left, '200px', 'Turtle position is correct.');
   }
 
   function checkMoveC() {
-    t.ok('C');
+    t.equal(turtleEl.style.left, '40px', 'Turtle position is correct.');
   }
 });

@@ -24,7 +24,8 @@
     "simulant": "^0.1.5",
     "smokestack": "^3.4.1",
     "tap-closer": "^1.0.0",
-    "tape": "^3.0.3"
+    "tape": "^3.0.3",
+    "queue-async": "^1.0.7"
   },
   "dependencies": {
     "browserify": "^8.1.3",

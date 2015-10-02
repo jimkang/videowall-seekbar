@@ -2,7 +2,7 @@ var simulant = require('simulant');
 
 function moveMouseOnEl(el, x, y) {
   simulant.fire(
-    window,
+    el,
     'mousemove',
     {
       relatedTarget: el,

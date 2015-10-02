@@ -24,7 +24,8 @@ test('Construction', function ctorTest(t) {
   var seekbar = Seekbar({
     theWindow: window,
     mediaElements: [MockMediaElement(), MockMediaElement()],
-    width: '150px'
+    width: 150,
+    unit: 'px'
   });
 
   t.equal(typeof seekbar, 'object', 'Creates a seekbar instance.');
