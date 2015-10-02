@@ -49,6 +49,11 @@ function Seekbar(createOpts) {
   var mouse = mousePosition(theWindow);
   setUpListeners();
 
+  var throttledValueChangeResponder;
+  if (onValueChange) {
+    throttledValueChangeResponder = throttle(onValueChange, 1000/30);
+  }
+
   if (isNaN(value)) {
     value = 0;
   }
@@ -102,8 +107,8 @@ function Seekbar(createOpts) {
     if (clamped !== value) {
       value = clamped;
       throttledRenderValue();
-      if (onValueChange) {
-        onValueChange(value);
+      if (throttledValueChangeResponder) {
+        throttledValueChangeResponder(value);
       }
     }
   }
