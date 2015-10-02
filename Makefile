@@ -1,8 +1,10 @@
 test: test-chrome test-firefox
 
-BROWSERIFYCMD = browserify -t [babelify --optional runtime]
+BROWSERIFYCMD = browserify -d -t [babelify --optional runtime]
+
 SMOKECHROME = node_modules/.bin/tap-closer | \
 	node_modules/.bin/smokestack -b chrome
+
 SMOKEFIREFOX = node_modules/.bin/tap-closer | \
 	node_modules/.bin/smokestack -b firefox
 
