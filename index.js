@@ -1,10 +1,13 @@
+var mousePosition = require('mouse-position');
+var clamp = require('clamp');
+
 function Seekbar(createOpts) {
   if (!createOpts) {
     throw new Error('No `createOpts` passed to Seekbar.');
   }
 
   var {
-    doc,
+    theWindow,
     mediaElements,
     min,
     max,
@@ -16,20 +19,29 @@ function Seekbar(createOpts) {
     throw new Error('No `mediaElements` provided to Seekbar.');
   }
 
-  if (!doc) {
-    doc = window.document;
+  if (!theWindow) {
+    theWindow = window;
   }
   if (!width) {
     width = '100%';
   }
+  var unit = '%';
+  if (width.length > 0 && width.charAt(width.length - 1) !== '%') {
+    unit = 'px';
+  }
+
+  var value = initValue;
+  var seeking = false;
+
+  var doc = theWindow.document;
 
   var {
     seekbarEl,
     runnerEl,
     turtleEl
-  } = createDOMElements(doc);
+  } = createDOMElements(doc, width);
 
-  var value = initValue;
+  var mouse = mousePosition(runnerEl, theWindow);
 
   if (isNaN(value)) {
     value = 0;
@@ -51,44 +63,66 @@ function Seekbar(createOpts) {
     return runnerEl;
   }
 
-  function createDOMElements(doc) {
-    var seekbarEl = doc.createElement('div');
-    seekbarEl.classList.add('videowall-seekbar');
-    setSeekbarStyles(seekbarEl, width);
+  function setUpListeners() {
+    turtleEl.addEventListener('mousedown', startSeek);
+    turtleEl.addEventListener('mouseup', endSeek);
+    mouse.on('move', respondToMove);
+  }
 
-    var runnerEl = doc.createElement('div');
-    runnerEl.classList.add('videowall-seekbar-runner');
-    setRunnerStyles(runnerEl);
+  function startSeek() {
+    // TODO: Add 'seeking' class to turtleEl.
+    console.log('Turtle mousedown\'d!');    
+    seeking = true;
+  }
 
-    var turtleEl = doc.createElement('div');
-    turtleEl.classList.add('videowall-seekbar-turtle');
-    setTurtleStyles(turtleEl);
+  function endSeek() {
+    seeking = false;
+  }
 
-    turtleEl.addEventListener('mousedown', logIt);
-
-    function logIt() {
-      console.log('Turtle mousedown\'d!');
+  function respondToMove() {
+    if (!seeking) {
+      return;
     }
 
-    seekbarEl.appendChild(runnerEl);
-    seekbarEl.appendChild(turtleEl);
+    var bounds = outer.getBoundingClientRect()
+    var ratio = clamp(mouse.x / bounds.width, 0, 1);
 
-    return {
-      seekbarEl,
-      runnerEl,
-      turtleEl
-    };
-  }  
-
-  var div = doc.createElement('div');
-  div.textContent = 'Hello';
-  doc.body.appendChild(div);
+    if (unit === '%') {
+      turtleEl.style.left = ratio * 100 + '%';
+    }
+    else {
+      turtleEl.style.left = ratio * width + 'px';
+    }
+  }
 
   return {
     getValue: getValue,
     el: getEl,
     getTurtleEl: getTurtleEl,
     getRunnerEl: getRunnerEl
+  };
+}
+
+function createDOMElements(doc, width) {
+  var seekbarEl = doc.createElement('div');
+  seekbarEl.classList.add('videowall-seekbar');
+  setSeekbarStyles(seekbarEl, width);
+
+  var runnerEl = doc.createElement('div');
+  runnerEl.classList.add('videowall-seekbar-runner');
+  setRunnerStyles(runnerEl);
+
+  var turtleEl = doc.createElement('div');
+  turtleEl.classList.add('videowall-seekbar-turtle');
+  setTurtleStyles(turtleEl);
+
+  seekbarEl.appendChild(runnerEl);
+  seekbarEl.appendChild(turtleEl);
+
+  return {
+    seekbarEl,
+    runnerEl,
+    turtleEl
   };
 }
 

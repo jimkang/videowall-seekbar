@@ -38,7 +38,7 @@ The Seekbar factory opts are:
   - `min`: This is the minimum possible value for the seekbar and videos.
   - `max`: This is the maximum possible value for the seekbar and videos.
   - `initValue`: This is the initial value for the seekbar.
-  - `doc`: You can provide this if you want it to use something other than `window.document` to create DOM elements.
+  - `window`: You can provide this if you want it to use something other than `window` to create DOM elements.
   - `width`: This can be any valid string value for the CSS width attribute, e.g.'400px', '80%'. Defaults to '100%'.
 
 CSS

@@ -1,18 +1,21 @@
 test: test-chrome test-firefox
 
+BROWSERIFYCMD = browserify -t [babelify --optional runtime]
+SMOKECHROME = node_modules/.bin/tap-closer | \
+	node_modules/.bin/smokestack -b chrome
+SMOKEFIREFOX = node_modules/.bin/tap-closer | \
+	node_modules/.bin/smokestack -b firefox
+
 test-chrome:
-	browserify -t babelify tests/basictests.js | \
-		node_modules/.bin/tap-closer | \
-		node_modules/.bin/smokestack -b chrome
+	$(BROWSERIFYCMD) tests/basictests.js | $(SMOKECHROME)
+	$(BROWSERIFYCMD) tests/seek-tests.js | $(SMOKECHROME)
 
 test-chrome-leave-up:
-	browserify -t babelify tests/basictests.js | \
-		node_modules/.bin/smokestack -b chrome
+	$(BROWSERIFYCMD) tests/seek-tests.js | node_modules/.bin/smokestack -b chrome
 
 test-firefox:
-	browserify -t babelify tests/basictests.js | \
-		node_modules/.bin/tap-closer | \
-		node_modules/.bin/smokestack -b firefox
+	$(BROWSERIFYCMD) tests/basictests.js | $(SMOKEFIREFOX)
+	$(BROWSERIFYCMD) tests/seek-tests.js | $(SMOKEFIREFOX)
 
 pushall:
 	git push origin master && git push origin gh-pages

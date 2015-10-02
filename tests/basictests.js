@@ -1,7 +1,7 @@
 var test = require('tape');
 var Seekbar = require('../index');
 var MockMediaElement = require('./fixtures/mock-media-element');
-var simulant = require('simulant');
+var insertTestStyles = require('./fixtures/insert-test-styles');
 
 test('Construction', function ctorTest(t) {
   insertTestStyles(window.document);
@@ -22,7 +22,7 @@ test('Construction', function ctorTest(t) {
   );
 
   var seekbar = Seekbar({
-    doc: window.document,
+    theWindow: window,
     mediaElements: [MockMediaElement(), MockMediaElement()],
     width: '150px'
   });
@@ -50,42 +50,3 @@ test('Construction', function ctorTest(t) {
 
   t.end();
 });
-
-test('Seeking', function seekingTest(t) {
-  var seekbar = Seekbar({
-    doc: window.document,
-    mediaElements: [MockMediaElement(), MockMediaElement()]    
-  });
-
-  var el = seekbar.el();
-  var turtleEl = seekbar.getTurtleEl();
-  var runnerEl = seekbar.getRunnerEl();
-
-  document.body.appendChild(el);
-
-  var mousedown = simulant('mousedown');
-  simulant.fire(turtleEl, 'mousedown');
-
-  t.end();
-});
-
-function insertTestStyles(doc) {
-  var style = doc.createElement('style');
-
-  style.textContent = `.videowall-seekbar {
-    height: 60px;
-  }
-
-  .videowall-seekbar-runner {
-    background-color: gray;
-    height: 100%;
-  }
-
-  .videowall-seekbar-turtle {
-    background-color: green;
-    width: 44px;
-    height: 100%;
-  }
-  `;
-  doc.body.appendChild(style);
-}
