@@ -14,7 +14,7 @@ var queue = require('queue-async');
 test('Seeking', function seekingTest(t) {
   insertTestStyles(window.document);
 
-  t.plan(3);
+  t.plan(6);
 
   var seekbar = Seekbar({
     theWindow: window,
@@ -75,13 +75,16 @@ test('Seeking', function seekingTest(t) {
 
   function checkMoveA() {
     t.equal(turtleEl.style.left, '100px', 'Turtle position is correct.');
+    t.equal(seekbar.getValue(), 10, 'Value is correct.');
   }
 
   function checkMoveB() {
     t.equal(turtleEl.style.left, '200px', 'Turtle position is correct.');
+    t.equal(seekbar.getValue(), 20, 'Value is correct.');
   }
 
   function checkMoveC() {
     t.equal(turtleEl.style.left, '40px', 'Turtle position is correct.');
+    t.equal(seekbar.getValue(), 4, 'Value is correct.');
   }
 });

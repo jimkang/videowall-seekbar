@@ -90,6 +90,7 @@ function Seekbar(createOpts) {
 
     var bounds = runnerEl.getBoundingClientRect()
     var ratio = clamp(mouse[0] / bounds.width, 0, 1);
+    value = clamp(max * ratio, min, max);
 
     if (unit === '%') {
       turtleEl.style.left = ratio * 100 + '%';
