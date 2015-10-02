@@ -46,7 +46,7 @@ function Seekbar(createOpts) {
     turtleEl
   } = createDOMElements(doc, width, unit);
 
-  var mouse = mousePosition(theWindow, seekbarEl);
+  var mouse = mousePosition(theWindow);
   setUpListeners();
 
   if (isNaN(value)) {
