@@ -90,7 +90,19 @@ function Seekbar(createOpts) {
 
     var bounds = runnerEl.getBoundingClientRect()
     var ratio = clamp(mouse[0] / bounds.width, 0, 1);
-    value = clamp(max * ratio, min, max);
+    setValue(max * ratio);
+  }
+
+  function setValue(newValue) {
+    var roundedValue = Math.round(clamp(newValue, min, max));
+    if (roundedValue !== value) {
+      value = roundedValue;
+      renderValue();
+    }
+  }
+
+  function renderValue() {
+    var ratio = value * 1.0 / max;
 
     if (unit === '%') {
       turtleEl.style.left = ratio * 100 + '%';
@@ -102,6 +114,7 @@ function Seekbar(createOpts) {
 
   return {
     getValue: getValue,
+    setValue: setValue,
     el: getEl,
     getTurtleEl: getTurtleEl,
     getRunnerEl: getRunnerEl

@@ -86,5 +86,5 @@ test('Seeking', function seekingTest(t) {
   function checkMoveC() {
     t.equal(turtleEl.style.left, '40px', 'Turtle position is correct.');
     t.equal(seekbar.getValue(), 4, 'Value is correct.');
-  }
+  }  
 });
