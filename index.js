@@ -1,5 +1,6 @@
 var mousePosition = require('mouse-position');
 var clamp = require('clamp');
+var throttle = require('lodash.throttle');
 
 function Seekbar(createOpts) {
   if (!createOpts) {
@@ -13,7 +14,8 @@ function Seekbar(createOpts) {
     max,
     initValue,
     width,
-    unit
+    unit,
+    onValueChange
   } = createOpts;
 
   if (!mediaElements || !Array.isArray(mediaElements)) {
@@ -69,7 +71,7 @@ function Seekbar(createOpts) {
 
   function setUpListeners() {
     turtleEl.addEventListener('mousedown', startSeek);
-    turtleEl.addEventListener('mouseup', endSeek);
+    theWindow.addEventListener('mouseup', endSeek);
     mouse.on('move', respondToMove);
   }
 
@@ -80,6 +82,7 @@ function Seekbar(createOpts) {
   }
 
   function endSeek() {
+    console.log('Turtle mouseup\'d!');
     seeking = false;
   }
 
@@ -94,10 +97,14 @@ function Seekbar(createOpts) {
   }
 
   function setValue(newValue) {
-    var roundedValue = clamp(newValue, min, max);
-    if (roundedValue !== value) {
-      value = roundedValue;
-      renderValue();
+    var clamped = clamp(newValue, min, max);
+
+    if (clamped !== value) {
+      value = clamped;
+      throttledRenderValue();
+      if (onValueChange) {
+        onValueChange(value);
+      }
     }
   }
 
@@ -111,6 +118,8 @@ function Seekbar(createOpts) {
       turtleEl.style.left = ratio * width + 'px';
     }
   }
+
+  var throttledRenderValue = throttle(renderValue, 1000/60);
 
   return {
     getValue: getValue,

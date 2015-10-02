@@ -33,6 +33,7 @@
     "d3": "^3.5.5",
     "idmaker": "^0.1.1",
     "lodash": "^3.6.0",
+    "lodash.throttle": "^3.0.4",
     "mouse-position": "^2.0.0",
     "smash": "0.0.14",
     "uglify-js": "^2.4.17"
