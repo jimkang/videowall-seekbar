@@ -1,6 +1,5 @@
 var test = require('tape');
 var Seekbar = require('../index');
-var MockMediaElement = require('./fixtures/mock-media-element');
 var insertTestStyles = require('./fixtures/insert-test-styles');
 
 test('Construction', function ctorTest(t) {
@@ -16,10 +15,6 @@ test('Construction', function ctorTest(t) {
   }
 
   t.throws(Seekbar, 'Constructor throws if no opts are given.');
-  t.throws(
-    constructWithoutMediaElements,
-    'Constructor throws if no media elements are provided.'
-  );
 
   var seekbar = Seekbar({
     theWindow: window,

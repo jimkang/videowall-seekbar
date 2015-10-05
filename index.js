@@ -9,7 +9,6 @@ function Seekbar(createOpts) {
 
   var {
     theWindow,
-    mediaElements,
     min,
     max,
     initValue,
@@ -17,10 +16,6 @@ function Seekbar(createOpts) {
     unit,
     onValueChange
   } = createOpts;
-
-  if (!mediaElements || !Array.isArray(mediaElements)) {
-    throw new Error('No `mediaElements` provided to Seekbar.');
-  }
 
   if (!theWindow) {
     theWindow = window;

@@ -34,12 +34,12 @@ Instantiation
 
 The Seekbar factory opts are:
 
-  – `mediaElements`: An array of HTMLMediaElements. This could be video or audio. In fact, they don't strictly have to be HTMLMediaElements. They just have to be objects that implement [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/currentTime), addEventListener, and emit `timeupdate` events. See tests for details.
   - `min`: This is the minimum possible value for the seekbar and videos.
   - `max`: This is the maximum possible value for the seekbar and videos.
   - `initValue`: This is the initial value for the seekbar.
   - `window`: You can provide this if you want it to use something other than `window` to create DOM elements.
   - `width`: This can be any valid string value for the CSS width attribute, e.g.'400px', '80%'. Defaults to '100%'.
+  - `onValueChange`: A callback that you can provide to get notified when the seekbar value changes. The seekbar will pass a single parameter: Just the value. This will not be called more than 30 times a second.
 
 CSS
 ---

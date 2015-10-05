@@ -3,7 +3,6 @@ var Seekbar = require('../index');
 var insertTestStyles = require('./fixtures/insert-test-styles');
 var moveMouseOnEl = require('./fixtures/move-mouse-on-el');
 var simulant = require('simulant');
-var MockMediaElement = require('./fixtures/mock-media-element');
 var queue = require('queue-async');
 
 // test('Pause', function pauseHack(t) {
@@ -18,7 +17,6 @@ test('Seeking', function seekingTest(t) {
 
   var seekbar = Seekbar({
     theWindow: window,
-    mediaElements: [MockMediaElement(), MockMediaElement()],
     min: 0,
     max: 100,
     initValue: 0,
@@ -110,7 +108,6 @@ test('Seeking', function seekingTest(t) {
 test('Setting', function settingTest(t) {
   var seekbar = Seekbar({
     theWindow: window,
-    mediaElements: [MockMediaElement(), MockMediaElement()],
     min: 0,
     max: 100,
     initValue: 0,
@@ -165,3 +162,4 @@ test('Setting', function settingTest(t) {
     t.end();
   }
 });
+
