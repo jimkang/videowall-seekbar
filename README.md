@@ -41,6 +41,28 @@ The Seekbar factory opts are:
   - `width`: This can be any valid string value for the CSS width attribute, e.g.'400px', '80%'. Defaults to '100%'.
   - `onValueChange`: A callback that you can provide to get notified when the seekbar value changes. The seekbar will pass a single parameter: Just the value. This will not be called more than 30 times a second.
 
+Usage
+-----
+
+    var seekbarDOMElement = seekbar.el();
+    parentDOMElement.appendChild(seekbarDOMElement);
+
+    seekbarDOMElement.addEventListener('usersetvalue', logValue);
+
+    function logValue(e) {
+      console.log(e.target.getValue);
+    }
+
+Seekbar instances have the following methods:
+
+  - `el`: Returns the seekbar's DOM element.
+  - `getValue`: Returns' the seekbar's current value.
+  - `setValue`: Sets the seekbar's value.
+
+Seekbar instances emit a `usersetvalue` event whenever the user changes the value via the UI.
+
+See [tests](https://github.com/jimkang/videowall-seekbar/tests) for detailed examples of usage.
+
 CSS
 ---
 
@@ -84,25 +106,6 @@ For example:
     }
 
 Then, you can go nuts with `border-radius` and transitions and what have you if that is how you roll.
-
-Usage
------
-
-    var seekbarDOMElement = seekbar.el();
-    parentDOMElement.appendChild(seekbarDOMElement);
-
-    seekbarDOMElement.addEventListener('usersetvalue', logValue);
-
-    function logValue(e) {
-      console.log(e.target.getValue);
-    }
-
-Seekbar instances have the following methods:
-
-  - `el`: Returns the seekbar's DOM element.
-  - `getValue`: Returns' the seekbar's current value.
-
-Seekbar instances emit a `usersetvalue` event whenever the user changes the value via the UI.
 
 Building
 --------
