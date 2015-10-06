@@ -20,12 +20,13 @@
   "devDependencies": {
     "babel-runtime": "^5.8.25",
     "babelify": "^6.3.0",
+    "call-next-tick": "^1.1.2",
     "jsdom": "^6.5.1",
+    "queue-async": "^1.0.7",
     "simulant": "^0.1.5",
     "smokestack": "^3.4.1",
     "tap-closer": "^1.0.0",
-    "tape": "^3.0.3",
-    "queue-async": "^1.0.7"
+    "tape": "^3.0.3"
   },
   "dependencies": {
     "browserify": "^8.1.3",

@@ -39,7 +39,7 @@ The Seekbar factory opts are:
   - `initValue`: This is the initial value for the seekbar.
   - `window`: You can provide this if you want it to use something other than `window` to create DOM elements.
   - `width`: This can be any valid string value for the CSS width attribute, e.g.'400px', '80%'. Defaults to '100%'.
-  - `onValueChange`: A callback that you can provide to get notified when the seekbar value changes. The seekbar will pass a single parameter: Just the value. This will not be called more than 30 times a second.
+  - `onValueChange`: A callback that you can provide to get notified when the seekbar value changes. The seekbar will pass two parameters: The value and – if the `setValue` call that triggered passed one – an `originData` value. `originData` can be anything. If the triggering event was a UI action (e.g. someone dragging the seekbar turtle), `originData` will be an object with a `sourceType` property with the value 'UI'. This callback will not be called more than 30 times a second.
 
 Usage
 -----
@@ -57,7 +57,7 @@ Seekbar instances have the following methods:
 
   - `el`: Returns the seekbar's DOM element.
   - `getValue`: Returns' the seekbar's current value.
-  - `setValue`: Sets the seekbar's value.
+  - `setValue(value, originData)`: Sets the seekbar's value. `originData` is anything you want it to be. It will be passed through to the `onValueChange` callback if there is one. You don't have to provide one. Its primary intended purpose is for a client to be able to tell which `onValueChange` calls were triggered by the client itself.
 
 Seekbar instances emit a `usersetvalue` event whenever the user changes the value via the UI.
 

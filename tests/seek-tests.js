@@ -1,9 +1,10 @@
 var test = require('tape');
 var Seekbar = require('../index');
 var insertTestStyles = require('./fixtures/insert-test-styles');
-var moveMouseOnEl = require('./fixtures/move-mouse-on-el');
-var simulant = require('simulant');
 var queue = require('queue-async');
+var createClickAndDragSequence = require('./fixtures/click-and-drag-sequence');
+var runIteratorUntilDone = require('./fixtures/run-iterator-until-done');
+var callNextTick = require('call-next-tick');
 
 // test('Pause', function pauseHack(t) {
 //   window.cont = t.end;
@@ -27,35 +28,37 @@ test('Seeking', function seekingTest(t) {
 
   var el = seekbar.el();
   var turtleEl = seekbar.getTurtleEl();
-  var runnerEl = seekbar.getRunnerEl();
 
   document.body.appendChild(el);
 
-  function* moveSequence(x, y, checkFn) {
-    simulant.fire(turtleEl, 'mousedown');
-    yield;
+  var runClickAndDrag = createClickAndDragSequence(el, turtleEl);
 
-    moveMouseOnEl(el, x, y);
-    yield;
-
-    simulant.fire(window, 'mouseup');
-    yield;
-
-    // This one shouldn't affect anything.
-    moveMouseOnEl(el, x + 200, y);
-    yield;
-    
-    checkFn();
-  }
-
-  var iterA = moveSequence(100, 0, checkMoveA);
-  var iterB = moveSequence(200, 0, checkMoveB);
-  var iterC = moveSequence(40, 0, checkMoveC);
+  var iterA = runClickAndDrag(
+    {
+      x: 100,
+      y: 0
+    },
+    checkMoveA
+  );
+  var iterB = runClickAndDrag(
+    {
+      x: 200,
+      y: 0
+    },
+    checkMoveB
+  );
+  var iterC = runClickAndDrag(
+    {
+      x: 40,
+      y: 0
+    },
+    checkMoveC
+  );
 
   var q = queue(1);
-  q.defer(runUntilDone, iterA.next.bind(iterA));
-  q.defer(runUntilDone, iterB.next.bind(iterB));
-  q.defer(runUntilDone, iterC.next.bind(iterC));
+  q.defer(runIteratorUntilDone, iterA.next.bind(iterA), 50);
+  q.defer(runIteratorUntilDone, iterB.next.bind(iterB), 50);
+  q.defer(runIteratorUntilDone, iterC.next.bind(iterC), 50);
   q.awaitAll(iteratorsDone);
 
   function iteratorsDone(error) {
@@ -163,3 +166,130 @@ test('Setting', function settingTest(t) {
   }
 });
 
+test('Set-and-notify cycle', function cycleTest(t) {
+  t.plan(2 * 100);
+
+  var seekbar = Seekbar({
+    theWindow: window,
+    min: 0,
+    max: 100,
+    initValue: 0,
+    width: '1000',
+    unit: 'px',
+    onValueChange: respondToValueChange
+  });
+
+  document.body.appendChild(seekbar.el());
+
+  var readjustCount = 0;
+  var expectedValue = 1;
+  var expectedOrigin = 'test-set-' + expectedValue;
+  seekbar.setValue(1, expectedOrigin);
+
+  function respondToValueChange(newValue, originData) {
+    t.equal(newValue, expectedValue, 'onValueChange passes correct value.');
+    t.equal(originData, expectedOrigin, 'onValueChange passes originData');
+    expectedValue = newValue + 1;
+    expectedOrigin = 'test-set-' + expectedValue;
+
+    readjustCount += 1;
+    if (readjustCount < 100) {
+      seekbar.setValue(newValue + 1, expectedOrigin);
+    }
+  }
+});
+
+test('UI-triggered value change', function uiTriggeredValueChange(t) {
+  t.plan(2 * 3);
+
+  var seekbar = Seekbar({
+    theWindow: window,
+    min: 0,
+    max: 100,
+    initValue: 0,
+    width: '1000',
+    unit: 'px',
+    onValueChange: respondToValueChange
+  });
+
+  var el = seekbar.el();
+  var turtleEl = seekbar.getTurtleEl();  
+
+  document.body.appendChild(el);
+
+  var runClickAndDrag = createClickAndDragSequence(el, turtleEl);
+
+  var iterA = runClickAndDrag(
+    {
+      x: 140,
+      y: 0
+    }
+  );
+  var iterB = runClickAndDrag(
+    {
+      x: 800,
+      y: 0
+    }
+  );
+  var iterC = runClickAndDrag(
+    {
+      x: 20,
+      y: 0
+    }
+  );
+
+  function moveOn() {
+    callNextTick(done);
+  }
+
+  var expectedOrigin = {
+    sourceType: 'UI'
+  };
+
+  var adjustCount = 0;
+
+  var q = queue(1);  
+  q.defer(runIteratorUntilDone, iterA.next.bind(iterA), 50);
+  q.defer(runIteratorUntilDone, iterB.next.bind(iterB), 50);
+  q.defer(runIteratorUntilDone, iterC.next.bind(iterC), 50);
+  q.awaitAll(iteratorsDone);
+
+  function iteratorsDone(error) {
+    if (error) {
+      console.log(error);
+    }
+  }
+
+  function respondToValueChange(newValue, originData) {
+    var newValue = Math.round(newValue);
+    
+    switch (adjustCount) {
+      case 0:
+        t.equal(newValue, 14, 'onValueChange is given correct value.');
+        t.deepEqual(
+          originData,
+          expectedOrigin,
+          'onValueChange originData indicates UI source.'
+        );
+        break;
+      case 1:
+        t.equal(newValue, 80, 'onValueChange is given correct value.');
+        t.deepEqual(
+          originData,
+          expectedOrigin,
+          'onValueChange originData indicates UI source.'
+        );
+        break;
+      case 2:
+        t.equal(newValue, 2, 'onValueChange is given correct value.');
+        t.deepEqual(
+          originData,
+          expectedOrigin,
+          'onValueChange originData indicates UI source.'
+        );
+        break;
+    }
+    
+    adjustCount += 1;
+  }
+});

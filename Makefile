@@ -19,5 +19,9 @@ test-firefox:
 	$(BROWSERIFYCMD) tests/basictests.js | $(SMOKEFIREFOX)
 	$(BROWSERIFYCMD) tests/seek-tests.js | $(SMOKEFIREFOX)
 
+test-integration:
+	$(BROWSERIFYCMD) tests/integration/video-test.js | \
+	node_modules/.bin/smokestack -b firefox
+
 pushall:
 	git push origin master && git push origin gh-pages

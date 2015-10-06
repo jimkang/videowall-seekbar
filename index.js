@@ -77,12 +77,10 @@ function Seekbar(createOpts) {
 
   function startSeek() {
     // TODO: Add 'seeking' class to turtleEl.
-    console.log('Turtle mousedown\'d!');    
     seeking = true;
   }
 
   function endSeek() {
-    console.log('Turtle mouseup\'d!');
     seeking = false;
   }
 
@@ -93,17 +91,20 @@ function Seekbar(createOpts) {
 
     var bounds = runnerEl.getBoundingClientRect()
     var ratio = clamp(mouse[0] / bounds.width, 0, 1);
-    setValue(max * ratio);
+    var originData = {
+      sourceType: 'UI'
+    };
+    setValue(max * ratio, originData);
   }
 
-  function setValue(newValue) {
+  function setValue(newValue, originData) {
     var clamped = clamp(newValue, min, max);
 
     if (clamped !== value) {
       value = clamped;
       throttledRenderValue();
       if (throttledValueChangeResponder) {
-        throttledValueChangeResponder(value);
+        throttledValueChangeResponder(value, originData);
       }
     }
   }

@@ -5,20 +5,10 @@ var insertTestStyles = require('./fixtures/insert-test-styles');
 test('Construction', function ctorTest(t) {
   insertTestStyles(window.document);
 
-  function constructWithoutMediaElements() {
-    var seekbar = Seekbar({
-      min: 0,
-      max: 100,
-      initValue: 0,
-      width: 150
-    });
-  }
-
   t.throws(Seekbar, 'Constructor throws if no opts are given.');
 
   var seekbar = Seekbar({
     theWindow: window,
-    mediaElements: [MockMediaElement(), MockMediaElement()],
     width: 150,
     unit: 'px'
   });
