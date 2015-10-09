@@ -25,3 +25,6 @@ test-integration:
 
 pushall:
 	git push origin master && git push origin gh-pages
+
+run-demo:
+	wzrd demo/index.js -- -d -t [babelify --optional runtime]
