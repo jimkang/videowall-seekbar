@@ -142,10 +142,11 @@ function createDOMElements(doc, width, unit) {
 
   var turtleEl = doc.createElement('div');
   turtleEl.classList.add('videowall-seekbar-turtle');
-  setTurtleStyles(turtleEl);
 
   seekbarEl.appendChild(runnerEl);
   seekbarEl.appendChild(turtleEl);
+
+  setTurtleStyles(turtleEl, seekbarEl, unit);
 
   return {
     seekbarEl,
@@ -154,7 +155,7 @@ function createDOMElements(doc, width, unit) {
   };
 }
 
-function setSeekbarStyles(el, width, unit) {
+function setSeekbarStyles(el, width, unit, turtleWidth) {
   el.style.position = 'relative';
   el.style.left = '0px';
   el.style.top = '0px';
@@ -167,8 +168,14 @@ function setRunnerStyles(el) {
   el.style.width = '100%';
 }
 
-function setTurtleStyles(el) {
+function setTurtleStyles(el, seekbarEl, unit) {
   el.style.position = 'absolute';
+
+  var turtleWidth = el.clientWidth;
+  if (unit === '%') {
+    turtleWidth = turtleWidth / seekbarEl.clientWidth * 100;
+  }
+  el.style.left = -turtleWidth/2 + unit;
 }
 
 module.exports = Seekbar;
