@@ -6,10 +6,13 @@ var createClickAndDragSequence = require('./fixtures/click-and-drag-sequence');
 var runIteratorUntilDone = require('./fixtures/run-iterator-until-done');
 var callNextTick = require('call-next-tick');
 
+var defaultTurtleOffset = -22;
+
 // test('Pause', function pauseHack(t) {
 //   window.cont = t.end;
 //   // Call `cont()` in the browser console when you're ready to continue.
 // });
+
 
 test('Seeking', function seekingTest(t) {
   insertTestStyles(window.document);
@@ -82,17 +85,27 @@ test('Seeking', function seekingTest(t) {
   var expectedValues = [10, 20, 4];
 
   function checkMoveA() {
-    t.equal(turtleEl.style.left, '100px', 'Turtle position is correct.');
+    t.equal(
+      turtleEl.style.left,
+      100 + defaultTurtleOffset + 'px',
+      'Turtle position is correct.'
+    );
     t.equal(seekbar.getValue(), expectedValues[0], 'Value is correct.');
   }
 
   function checkMoveB() {
-    t.equal(turtleEl.style.left, '200px', 'Turtle position is correct.');
+    t.equal(
+      turtleEl.style.left,
+      200 + defaultTurtleOffset + 'px', 'Turtle position is correct.'
+    );
     t.equal(seekbar.getValue(), expectedValues[1], 'Value is correct.');
   }
 
   function checkMoveC() {
-    t.equal(turtleEl.style.left, '40px', 'Turtle position is correct.');
+    t.equal(
+      turtleEl.style.left, 40 + defaultTurtleOffset + 'px',
+      'Turtle position is correct.'
+    );
     t.equal(seekbar.getValue(), expectedValues[2], 'Value is correct.');
   }
 
@@ -127,7 +140,11 @@ test('Setting', function settingTest(t) {
   setTimeout(checkSetA, 100);
 
   function checkSetA() {
-    t.equal(turtleEl.style.left, '991px', 'Turtle position is correct.');
+    t.equal(
+      turtleEl.style.left,
+      991 + defaultTurtleOffset + 'px',
+      'Turtle position is correct.'
+    );
     t.equal(seekbar.getValue(), 99.1, 'Value is correct.');
 
     seekbar.setValue(125);
@@ -135,7 +152,11 @@ test('Setting', function settingTest(t) {
   }
 
   function checkSetB() {
-    t.equal(turtleEl.style.left, '1000px', 'Turtle position is correct.');
+    t.equal(
+      turtleEl.style.left,
+      1000 + defaultTurtleOffset + 'px',
+      'Turtle position is correct.'
+    );
     t.equal(seekbar.getValue(), 100, 'Value is correct.');
 
     seekbar.setValue(0);
@@ -143,7 +164,10 @@ test('Setting', function settingTest(t) {
   }
 
   function checkSetC() {
-    t.equal(turtleEl.style.left, '0px', 'Turtle position is correct.');
+    t.equal(
+      turtleEl.style.left,
+      0 + defaultTurtleOffset + 'px', 'Turtle position is correct.'
+    );
     t.equal(seekbar.getValue(), 0, 'Value is correct.');
 
     seekbar.setValue(-12);
@@ -151,7 +175,11 @@ test('Setting', function settingTest(t) {
   }
 
   function checkSetD() {
-    t.equal(turtleEl.style.left, '0px', 'Turtle position is correct.');
+    t.equal(
+      turtleEl.style.left,
+      0  + defaultTurtleOffset + 'px',
+      'Turtle position is correct.'
+    );
     t.equal(seekbar.getValue(), 0, 'Value is correct.');
 
     seekbar.setValue(55.8);
@@ -159,7 +187,11 @@ test('Setting', function settingTest(t) {
   }
 
   function checkSetE() {    
-    t.equal(turtleEl.style.left, '558px', 'Turtle position is correct.');
+    t.equal(
+      turtleEl.style.left,
+      558 + defaultTurtleOffset + 'px',
+      'Turtle position is correct.'
+    );
     t.equal(seekbar.getValue(), 55.8, 'Value is correct.');
 
     t.end();

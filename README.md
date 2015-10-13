@@ -39,6 +39,7 @@ The Seekbar factory opts are:
   - `initValue`: This is the initial value for the seekbar.
   - `window`: You can provide this if you want it to use something other than `window` to create DOM elements.
   - `width`: This can be any valid string value for the CSS width attribute, e.g.'400px', '80%'. Defaults to '100%'.
+  - `turtleWidthPx`: The width of the turtle in pixels. Defaults to 44.
   - `onValueChange`: A callback that you can provide to get notified when the seekbar value changes. The seekbar will pass two parameters: The value and – if the `setValue` call that triggered passed one – an `originData` value. `originData` can be anything. If the triggering event was a UI action (e.g. someone dragging the seekbar turtle), `originData` will be an object with a `sourceType` property with the value 'UI'. This callback will not be called more than 30 times a second.
 
 Usage

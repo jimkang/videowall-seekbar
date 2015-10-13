@@ -7,6 +7,7 @@ var seekbar = Seekbar({
   initValue: 0,
   width: '1000',
   unit: 'px',
+  turtleWidthPx: 44,
   onValueChange: respondToValueChange
 });
 

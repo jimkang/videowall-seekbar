@@ -14,6 +14,7 @@ function Seekbar(createOpts) {
     initValue,
     width,
     unit,
+    turtleWidthPx,
     onValueChange
   } = createOpts;
 
@@ -29,9 +30,13 @@ function Seekbar(createOpts) {
   if (!width) {
     width = 100;
   }
+  if (!turtleWidthPx) {
+    turtleWidthPx = 44;
+  }
 
   var value = initValue;
   var seeking = false;
+  var turtleOffsetFromCenter = -turtleWidthPx/2;
 
   var doc = theWindow.document;
 
@@ -39,7 +44,7 @@ function Seekbar(createOpts) {
     seekbarEl,
     runnerEl,
     turtleEl
-  } = createDOMElements(doc, width, unit);
+  } = createDOMElements(doc, width, unit, turtleOffsetFromCenter);
 
   var mouse = mousePosition(theWindow);
   setUpListeners();
@@ -111,13 +116,14 @@ function Seekbar(createOpts) {
 
   function renderValue() {
     var ratio = value * 1.0 / max;
+    var turtleLeft = ratio * width;
 
     if (unit === '%') {
-      turtleEl.style.left = ratio * 100 + '%';
+      turtleLeft = ratio * seekbarEl.clientWidth;
     }
-    else {
-      turtleEl.style.left = ratio * width + 'px';
-    }
+
+    turtleLeft += turtleOffsetFromCenter;
+    turtleEl.style.left = turtleLeft + 'px';
   }
 
   var throttledRenderValue = throttle(renderValue, 1000/60);
@@ -131,7 +137,7 @@ function Seekbar(createOpts) {
   };
 }
 
-function createDOMElements(doc, width, unit) {
+function createDOMElements(doc, width, unit, turtleOffsetFromCenter) {
   var seekbarEl = doc.createElement('div');
   seekbarEl.classList.add('videowall-seekbar');
   setSeekbarStyles(seekbarEl, width, unit);
@@ -146,7 +152,7 @@ function createDOMElements(doc, width, unit) {
   seekbarEl.appendChild(runnerEl);
   seekbarEl.appendChild(turtleEl);
 
-  setTurtleStyles(turtleEl, seekbarEl, unit);
+  setTurtleStyles(turtleEl, turtleOffsetFromCenter);
 
   return {
     seekbarEl,
@@ -155,7 +161,7 @@ function createDOMElements(doc, width, unit) {
   };
 }
 
-function setSeekbarStyles(el, width, unit, turtleWidth) {
+function setSeekbarStyles(el, width, unit) {
   el.style.position = 'relative';
   el.style.left = '0px';
   el.style.top = '0px';
@@ -168,14 +174,9 @@ function setRunnerStyles(el) {
   el.style.width = '100%';
 }
 
-function setTurtleStyles(el, seekbarEl, unit) {
+function setTurtleStyles(el, turtleOffsetFromCenter) {
   el.style.position = 'absolute';
-
-  var turtleWidth = el.clientWidth;
-  if (unit === '%') {
-    turtleWidth = turtleWidth / seekbarEl.clientWidth * 100;
-  }
-  el.style.left = -turtleWidth/2 + unit;
+  el.style.left = turtleOffsetFromCenter + 'px';
 }
 
 module.exports = Seekbar;
