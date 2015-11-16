@@ -51,6 +51,7 @@ Usage
 
     function logValue(e) {
       console.log(e.target.getValue);
+      seekbar.render();
     }
 
 Seekbar instances have the following methods:
@@ -58,6 +59,7 @@ Seekbar instances have the following methods:
   - `el`: Returns the seekbar's DOM element.
   - `getValue`: Returns' the seekbar's current value.
   - `setValue(value, originData)`: Sets the seekbar's value. `originData` is anything you want it to be. It will be passed through to the `onValueChange` callback if there is one. You don't have to provide one. Its primary intended purpose is for a client to be able to tell which `onValueChange` calls were triggered by the client itself.
+  - `render`: Renders the seekbar's current state. The seekbar intentionally does not do this automatically when you set the value so you can control when the DOM is updated. If you want it to render every time the value changes, call this in your `onValueChange` responder.
 
 Seekbar instances emit a `usersetvalue` event whenever the user changes the value via the UI.
 

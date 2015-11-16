@@ -102,14 +102,13 @@ function Seekbar(createOpts) {
 
     if (clamped !== value) {
       value = clamped;
-      throttledRenderValue();
       if (throttledValueChangeResponder) {
         throttledValueChangeResponder(value, originData);
       }
     }
   }
 
-  function renderValue() {
+  function render() {
     var ratio = value * 1.0 / max;
 
     if (unit === '%') {
@@ -120,14 +119,15 @@ function Seekbar(createOpts) {
     }
   }
 
-  var throttledRenderValue = throttle(renderValue, 1000/60);
+  // var throttledRenderValue = throttle(renderValue, 1000/60);
 
   return {
     getValue: getValue,
     setValue: setValue,
     el: getEl,
     getTurtleEl: getTurtleEl,
-    getRunnerEl: getRunnerEl
+    getRunnerEl: getRunnerEl,
+    render: render
   };
 }
 

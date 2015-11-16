@@ -82,23 +82,26 @@ test('Seeking', function seekingTest(t) {
   var expectedValues = [10, 20, 4];
 
   function checkMoveA() {
+    seekbar.render();
     t.equal(turtleEl.style.left, '100px', 'Turtle position is correct.');
     t.equal(seekbar.getValue(), expectedValues[0], 'Value is correct.');
   }
 
   function checkMoveB() {
+    seekbar.render();
     t.equal(turtleEl.style.left, '200px', 'Turtle position is correct.');
     t.equal(seekbar.getValue(), expectedValues[1], 'Value is correct.');
   }
 
   function checkMoveC() {
+    seekbar.render();
     t.equal(turtleEl.style.left, '40px', 'Turtle position is correct.');
     t.equal(seekbar.getValue(), expectedValues[2], 'Value is correct.');
   }
 
   var changeCount = 0;
 
-  function checkValueChange(value) {
+  function checkValueChange(value) {    
     t.equal(
       value,
       expectedValues[changeCount],
@@ -127,6 +130,7 @@ test('Setting', function settingTest(t) {
   setTimeout(checkSetA, 100);
 
   function checkSetA() {
+    seekbar.render();
     t.equal(turtleEl.style.left, '991px', 'Turtle position is correct.');
     t.equal(seekbar.getValue(), 99.1, 'Value is correct.');
 
@@ -135,6 +139,7 @@ test('Setting', function settingTest(t) {
   }
 
   function checkSetB() {
+    seekbar.render();
     t.equal(turtleEl.style.left, '1000px', 'Turtle position is correct.');
     t.equal(seekbar.getValue(), 100, 'Value is correct.');
 
@@ -143,6 +148,7 @@ test('Setting', function settingTest(t) {
   }
 
   function checkSetC() {
+    seekbar.render();
     t.equal(turtleEl.style.left, '0px', 'Turtle position is correct.');
     t.equal(seekbar.getValue(), 0, 'Value is correct.');
 
@@ -151,6 +157,7 @@ test('Setting', function settingTest(t) {
   }
 
   function checkSetD() {
+    seekbar.render();
     t.equal(turtleEl.style.left, '0px', 'Turtle position is correct.');
     t.equal(seekbar.getValue(), 0, 'Value is correct.');
 
@@ -158,7 +165,8 @@ test('Setting', function settingTest(t) {
     setTimeout(checkSetE, 100);
   }
 
-  function checkSetE() {    
+  function checkSetE() {
+    seekbar.render();
     t.equal(turtleEl.style.left, '558px', 'Turtle position is correct.');
     t.equal(seekbar.getValue(), 55.8, 'Value is correct.');
 
@@ -196,6 +204,7 @@ test('Set-and-notify cycle', function cycleTest(t) {
     if (readjustCount < 100) {
       seekbar.setValue(newValue + 1, expectedOrigin);
     }
+    callNextTick(seekbar.render);
   }
 });
 
@@ -291,5 +300,7 @@ test('UI-triggered value change', function uiTriggeredValueChange(t) {
     }
     
     adjustCount += 1;
+
+    callNextTick(seekbar.render);
   }
 });
