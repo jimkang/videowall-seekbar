@@ -1,0 +1,18 @@
+body {
+  font-family: "helvetica neue";
+}
+
+.videowall-seekbar {
+  height: 60px;
+}
+
+.videowall-seekbar-runner {
+  background-color: gray;
+  height: 100%;
+}
+
+.videowall-seekbar-turtle {
+  background-color: green;
+  width: 44px;
+  height: 100%;
+}

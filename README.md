@@ -65,6 +65,17 @@ Seekbar instances emit a `usersetvalue` event whenever the user changes the valu
 
 See [tests](https://github.com/jimkang/videowall-seekbar/tests) for detailed examples of usage.
 
+Demo
+----
+
+To run the demo, first install wzrd:
+
+    npm -g wzrd
+
+Then run:
+
+    make run-demo
+
 CSS
 ---
 
