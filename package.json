@@ -1,6 +1,6 @@
 {
   "name": "videowall-seekbar",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A browser UI control for use with Babelify that coordinates seeking in multiple videos.",
   "main": "index.js",
   "scripts": {
