@@ -1,5 +1,5 @@
 var test = require('tape');
-var Seekbar = require('../index');
+var Seekbar = require('../app');
 var insertTestStyles = require('./fixtures/insert-test-styles');
 
 test('Construction', function ctorTest(t) {

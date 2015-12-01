@@ -28,3 +28,6 @@ pushall:
 
 run-demo:
 	wzrd demo/index.js -- -d -t [babelify --optional runtime]
+
+build:
+	$(BROWSERIFYCMD) app.js > index.js
