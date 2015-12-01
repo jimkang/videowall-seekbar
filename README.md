@@ -119,23 +119,6 @@ For example:
 
 Then, you can go nuts with `border-radius` and transitions and what have you if that is how you roll.
 
-Building
---------
-
-If you know how to use Babelify, you know how to build with this module. Browserify is a tool that lets you organize your code as Node modules and then build it so that the browser understands it. Babelify is a *transform* for Browserify that converts ES6 code into ES5 code so that current browsers understand it. So, your build command will be something like:
-
-    browserify your-main-file.js -t babelify
-
-In development, you probably want to use a watcher like [wzrd](https://github.com/maxogden/wzrd). So, your command will be something like:
-
-    wzrd index.js -- -t babelify
-
-Then, wzrd will say something like:
-
-    server started at http://localhost:9966
-
-And you can open your browser to that and hopefully see your seekbar!
-
 Tests
 -----
 
