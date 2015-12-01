@@ -26,7 +26,6 @@ Instantiation
     var Seekbar = require('videowall-seekbar');
 
     var seekbar = Seekbar({
-      mediaElements: arrayOMediaDOMElements,
       min: 0,
       max: 100,
       initValue: 0
