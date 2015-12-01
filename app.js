@@ -1,6 +1,6 @@
 var mousePosition = require('mouse-position');
 var clamp = require('clamp');
-var throttle = require('lodash.throttle');
+var throttle = require('lodash').throttle;
 
 function Seekbar(createOpts) {
   if (!createOpts) {
