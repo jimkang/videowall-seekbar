@@ -23,7 +23,7 @@ test-integration:
 	$(BROWSERIFYCMD) tests/integration/video-test.js | \
 	node_modules/.bin/smokestack -b firefox
 
-pushall:
+pushall: build
 	git push origin master && git push origin gh-pages
 
 run-demo:
